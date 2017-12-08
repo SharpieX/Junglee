@@ -1,0 +1,53 @@
+<div ng-if="!$ctrl.data">
+    <p class="centre-text">{{ $ctrl.hello }}</p>
+    <!-- Trigger/Open The Modal -->
+    <button id="myBtn" class="artist-button" ng-click="$ctrl.openModal()">Search Artist</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal" ng-if="$ctrl.show">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="header">
+                Enter Search Criteria
+                <span class="close" ng-click="$ctrl.hideModal()">&times;</span>
+            </div>
+            <form name="form" ng-submit="$ctrl.getData()" class="css-form" novalidate>
+                <div>
+                    <label>
+                        Artist Name:<input type="text" ng-model="$ctrl.name" name="name" class="user" username/></label><br/>
+                    <span ng-show="form.name.$pending.username">Checking if this name is available...</span>
+                    <span ng-show="form.name.$error.username">Please enter valid name </span>
+                </div>
+
+                <div>
+                    <label>No. of Tracks:
+                        <input type="number" ng-model="$ctrl.limit" name="size" min="0" max="4" integer/></label><br/>
+                    <span ng-show="form.size.$error.integer">The value is not a valid integer!</span>
+                    <span ng-show="form.size.$error.min || form.size.$error.max"> The value must be in range 0 to 4!</span>
+                </div>
+
+                <input type="submit" id="submit" value="Search" class="search" ng-disabled="form.$invalid"/>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-if="$ctrl.data" class="result">
+    <div class="header">
+        <h1 class="heading">Search result for "{{$ctrl.searched}}" is here.</h1>
+
+        <span class="clear" ng-click="$ctrl.clearData()">(Clear)</span>
+    </div>
+    <div class="content" ng-repeat="artist in $ctrl.data.results">
+        <div class="image"><img
+                src="{{artist.artworkUrl60}}"
+                alt=""></div>
+        <div class="description">
+            <label>Artist Name:</label><span>{{artist.artistName}}</span></br>
+            <label>Track Name:</label><span> {{artist.trackName}}</span></br>
+            <div class="long">
+                <p>{{artist.longDescription}}</p>
+            </div>
+        </div>
+    </div>
+</div>
